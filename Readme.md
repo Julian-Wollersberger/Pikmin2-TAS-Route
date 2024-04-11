@@ -19,25 +19,35 @@ can appear at frames 628 to 680. Almost a second of variance.
 
 ### 0.1 Day 1 Extinction
 There are 2 spots for D1E: The classic one and [the Keisen spot](https://clips.twitch.tv/AnnoyingTsundereCucumberBrokeBack-HbURwx5vVTQ7n1Me).
-The second one is said to be slightly faster, because there is less distance to walk. Not timed yet.
+The second one is 5 frames faster, because there is less distance to walk. 
 ![0.1 D1E faster spot.png]
 
-The Moonwalk strategy allows for a faster death.
-> * There the longer you moonwalk the farther your pikmin goes.  But Moonwalking
->   is slow.  A minimum moonwalking distance needs to be found to make the 
->   journey to the death barrier as fast as possible 
-> * no matter what the captin will always go slightly to the left if moonwalking 
->   down and slightly to the right if moonwalking up (not sure nor do i think knowing why will be super helpful)
-~ [Standard_ on Discord](https://discord.com/channels/177495849100640256/698992259038838864/1156291064655781920)
+Grab the Pikmin at the bulborb. Carrying it is about 20 frames faster than 
+waiting for it to catch up.
 
+The Moonwalk strategy allows for a faster death.
 [Demonstration at 1:15](https://discord.com/channels/177495849100640256/698992259038838864/1172216267948703764)
+
+The important thing here is to get a momontum throw, but backwards. The 
+invisible ledge extends quite a bit out of bounds. Only a momentum throw 
+clears that distance. For that, you need to moonwalk long enough so that the
+cursor points behind Olimar. Release A two or three frames before Olimar 
+thoughes the wall.
+![0.1 D1E Pikmin chilling OOB.png]
 
 On the Today's Report cutscene, mash A to get to the report 3sec faster.
 (This is an easy thing to forget...)
 
 ### 0.2 Day 2
-The pellet posies have a random spawn location, with collection times varieing by several seconds.
-Make sure to manipulate a good RNG seed at the end of day 1.
+The pellet posies have a random spawn location, with collection times varying 
+by about 130 frames. RNG can be manipulated on day 1, after throwing and before 
+the fadeout, by walking around randomly.
+
+Sadly, the fastest layouts are to fast. The bulborb doesn't die in time.
+The fastes I got was taking 160f from red text over pellet to fadeout.
+In my successful attempt it takes 187f. It should be possible with 177f.
+
+The Pikmin can pick up the pellet with 0f, 10f or 20f of delay, depending on RNG.
 
 The TAS can skip the pellet cutscene by ending the day on the same frame as the first pellet collects.
 But you need to kill the bulborb beforehand, because otherwise you can never switch to Louie. 
@@ -48,6 +58,9 @@ Faster bulborb death animation:
 > the turning on the spot animation makes it go at 60fps, you just need to kill it during that animation
 > if it goes from turn straight to shake that can help since it maintains the 60fps while not turning
 ~ [PikHacker on Discord](https://discord.com/channels/177495849100640256/177496240035069962/903697188000006164), with video.
+
+It's pretty easy to get here. Fast death takes 45f, normal death takes 90f.
+Olimar punches faster when wiggling than when standing still.
 
 ### 0.3 Day 3
 
