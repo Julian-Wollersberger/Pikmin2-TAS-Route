@@ -63,6 +63,44 @@ It's pretty easy to get here. Fast death takes 45f, normal death takes 90f.
 Olimar punches faster when wiggling than when standing still.
 
 ### 0.3 Day 3
+Manipulate RNG for the pellet posies again.
+
+The cutscene for killing the bulborb happens here.
+Aka cutscene timer storage. It has no use here.
+
+Leaf Pikmin are slow, so throwing to the pellets is faster.
+Carrying the Pikmin to near the first pellet is a few frames
+faster than longthrowing. For the second pellet, I push
+the Pikmin with Olimar and do a half-longthrow as soon
+as it is throwable.
+
+The throwing angle and distance is influenced for three
+frames by the stick during the throwing animation.
+By going in one direction for two frames and in a very
+different direction on the third frame, I get a distance
+that is between a short throw and a long throw.
+
+Perform Louie skip by ending the day at the same time
+as activating the Louie cutscene.
+
+### 0.4 Day 4
+Only the two grouped pellet posies and the eggs are RNG
+dependent. All other pellets have a fixed spot.
+
+
+
+Cheats:
+$Mitites die when trying to walk (US Final) [APerson13]
+0436cd1c 38800004
+0436cdac 38800000
+$Mitites die when trying to walk (JPN) [APerson13]
+0436d32c 38800004
+0436d3bc 38800000
+$Mitites die when trying to walk (PAL) [EpochFlame]
+0436cf2c 38800004
+0436cfbc 38800000
+
+### 0.5 Day 5
 
 ## 1. Emergence Cage
 
@@ -93,6 +131,22 @@ Best known layout: [1:12.06 by Jack](https://www.youtube.com/watch?v=T0pGBGVPr5E
 ## 8. Citadel of Spiders
 
 ## 9. Glutton's Kitchen
+
+
+## Route Planning
+Mostly, this is the RTA route. The above grounds are increadibly optimized.
+
+In WFG3, the tape is skipped. This is the slowest treasure in the Pod route besides globes.
+It takes 49sec or 1.6 pokos/sec.
+
+Percent cutscene skips:
+* After WFG it's barely not possible by 80pokos.
+* 40%: Enter BK <=3999 and leave >5000. Though chance totem could be moved afterwards.
+  This means that early game pokos don't matter that much actually. I just need to reach 3999.
+* What to do in VoR? That's 760 pokos movable.
+
+How many bugs?
+This is the big question.
 
 
 ## References

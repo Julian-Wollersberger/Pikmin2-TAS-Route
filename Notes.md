@@ -579,5 +579,155 @@ other pellet:
 F6: 6217, 6237
 F7: 6216, 6236
 
+Last time it was faster to walk to the pellet 
+instead of throwing.
+Pellet hit, no health bar:
+F6: 6218, 6238
+F6: 6212, 6232
+F7: 6212, 6232
+F7: 6211, 6231
+
+When picket up?
+F5: 6271
+None faster.
+Cutscene skip at 6324.
+Whistle at 6473 or 6475.
+F4: C-Stick. Pick up at 6573.
+F5: Throw. Pick up at 6559. Far away.
+F5: Throw very near. 6551
+F6: Louie skip black at 7067
+F7: Skip at 7067, START at 7050
+
+F7: START at 7049
+7057 R, 7088 down, 7116 A, then up, 7146 A
+7164 A, 7199 A, 7245 A, 7264 A, 
+7317 A_A, 7386 A_A, 7512 A, 
+7536 Down Down+A, 7576 A, black at 7630,
+7868 A, 7938 A, 8217 START, 
+
+A, Today's Report: 
+7247: 7256
+7246: 7255
+7245: 7253
+7244: 7255
+7243: 7264
+
+I'm at 3731 rerecords!
+And 11 seconds faster than TAS-2!
+
+### Day 4
+There are 3 Pikmin in onion, 2 in ground.
+
+Old strategy in TAS-2:
+Take out 3 from onion, pluck 2 with Olimar,
+whistle Louie, throw 1 to 5-pellet, collect 5-pellet.
+Push egg with Olimar
+Push egg with Louie (pellet collects when down)
+whistle Pikmin, throw 2 to far pellet, 2 to near pellet,
+go up to egg with Louie. (Pikmin sprout in middle)
+Pluck with Olimar.
+Second pellet gets in on 4th Pikmin plucked.
+Now I have 10 Pikmin. Mitites.
+
+What can I do better?
+I really need at least 10 Pikmin to collect mitites.
+Get 1-pellets moving faster by not pushing second egg immediately.
+Prioritize near 1-pellet?
+Don't snipe far 1-pellet -> More time to get Louie up.
+Get eggs down to 1 HP.
+Do 10-pellet afterwards, when courage reactor is moving.
+Snipe dwarf bulborb to get 1-pellet. Not body probably.
+If I can get >10 Pikmin for mitites, less time would be wasted for whistling.
+
+For egg push with both captains.
+Possible to hug left wall?
+Maybe switch to Louie on slope for better control?
+If I manage a double egg push, I could redo day 2 and kill the bulborb after mitites.
+
+What to do while waiting on CR?
+There are ~26sec wasted in demonstration video. 
+40sec total time from arriving at onion to collecting CR.
+* 10-pellet. Takes 5 to 6 sec.
+* far 1-pellet
+* Write TAS with Pikmin like APerson.
+* Third set of mitites: >30sec until sprouted. Nope.
+  But with tripple egg push: <14sec to collect, 9sec to sprout
+  Very viable! Probably even with 10-pellet.
+
+Collection times:
+near 1-pellet: 8809 to 9060 => 251f
+far  1-pellet: 9509 to 9869 => 360f
+5-pellet:    10301 to 10655 => 354f
+
+Is there RNG here?
+grouped posies: 138f and 179f. That's a lot nearer than on day 3!
+
+Double and tripple egg push is actually pretty easy!
+Just run along the right edge.
+They even push themselves a bit.
+Strat: Get 5-pellet collecting, run up with only Olimar,
+Get eggs to push themselves down,
+switch to Louie and get 1-pellets moving,
+help push eggs with Olimar,
+pluck with both captains, hopefully 12 Pikmin
+(Right edge is easier than left edge)
+
+
+Starting to TAS.
+A under Onion on 8279.
+8295 down _ down _ down+A
+8309 B hold
+8320 Louie whistled
+8335 A to pluck
+Alternatively: Pluck at 8337.
+Plucking with Louie doesn't work.
+When dismissing, his Pikmin either stays with him or dismisses too.
+So pluck both with Olimar.
+
+Collecting near red:
+F6: 9132
+F5: moves a bit earlier 
+pellet after all pushes:
+Done before sprouts pluckable. But 1-pellet not in time.
+
+Now timing pellet before slope.
+F4: Slope part takes from 8810 to 8980 => 170f
+Switch+throw+switch takes 8810 to 9020 => 210f because waiting for 5-pellet.
+Ok, doesn't work.
+
+Switching back to Louie:
+F3: 9021
+F4: 8987
+F8: 8978
+
+Throwing, hit pellet:
+F6: 9023, 9051
+F7: 9019, 9050
+F4: 9017, 9049
+
+First Pik grabs, second, collects:
+F2: 9103, 9126, 9360, 
+F3: 9113, 9128, 9362, 
+
+Opening egg:
+F6: 9430
+F7: 9430
+
+Before I do mitites, I want to be sure I didn't miss anything.
+* far 1-pellet will be done later.
+* go through notes of TAS-2.
+
+TODO:
+Faster sprout growing. Wastes some time right now.
+The first two sprouts should be as quick as possible.
+The last two just not to slow.
+Are the positions good enouth? Could be better.
+
+old notes: 
+* when you start plucking, there's a particular way to do it such that the first seed you pluck does the fast animation rather than the normal slow one
+* getting your secondary captain to pluck first so they pluck on a better cycle for certain numbers of sprouts
+* Timesave: Letting 10-pellet slide down the hill https://youtu.be/uMR9xyYrxV4?t=594
+
+
 
 
