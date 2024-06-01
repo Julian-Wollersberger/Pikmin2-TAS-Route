@@ -762,7 +762,7 @@ Mitites after bags probably doesn't work, because to few Pikmin.
 For bags and CR I need about 55 Pikmin.
 Can't do all things after that, because no Pikmin are left.
 So at least mitites or 10-pellet needs to happen before bags.
-With mitites before, it's the save option, since that takes the longest and grows 20.
+With mitites before, it's the safe option, since that takes the longest and grows 20.
 With 10-pellet before, it's more risky: pluck 10, 4 from dwarf should be back, collect, sprout, pluck. All in under 40sec.
 
 

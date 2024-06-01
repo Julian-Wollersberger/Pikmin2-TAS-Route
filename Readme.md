@@ -87,10 +87,81 @@ as activating the Louie cutscene.
 Only the two grouped pellet posies and the eggs are RNG
 dependent. All other pellets have a fixed spot.
 
+The first thing you need to do is to get the 5-pellet moving.
+The two 1-pellets won't work since 10 Pikmin are needed for mitites.
+Plucking both sprouts with Olimar is faster, because Louie
+lags so far behind.
+
+#### Egg Push
+All three eggs no to go down the slope. It is possible to
+push all three eggs at the same time with one captain,
+and still be faster than the 5-pellet.
+
+First, push one egg slightly over the edge, otherwise it
+will only move sideways later. Also punch it down to 1 hit.
+Then run to the back egg and punch so that two eggs get hit.
+It's easiest to punch them while on still being on the upper part.
+
+Steering the eggs is very finnicy. It's like driving backwards
+in a car with two trailers.
+My technique is to pick a direction in the TAS Input window,
+advance by ~5 frames, make a savestate, advance further to see
+whether Olimar overshoots left or right of the egg,
+load the savestate, adjust the direction, and repeat.
+All three eggs shoud stay in a mostly straight line.
+First all must go over the edge, then steer them towards the left edge.
+On the slope it's sometimes neccessary to walk uphill.
+That will slow you down though.
+
+When the alignment is just perfect, you can switch to Louie about
+two seconds before all eggs reach the bottom. Then whistle the
+Pikmin from the 5-pellet. If you need to delay the whistling by a
+few frames, then success! The egg push was faster than the 5-pellet.
+
+#### Mitites Strategy
+Before the second set of mitites can spawn, the first set needs to
+fully collect. For that, you need all 10 available Pikmin. Otherwise it's very slow.
+So pluck all 5 from the 5-pellet. RNG manipulate both the direction the sprouts
+fall in (for a short walking distance) and how long they take to grow
+(determined on the frame they land on the ground).
+
+The first time you pluck, it's a slower pluck (38 frames), and then
+if you are continuously pressing A to auto-pluck without walking to each
+seed, then the 2nd pluck onward is fast (14 frames), until you fully stop plucking
+and have movement control again. Between the plucks, the captain is in the
+"pluck adjust" state, where they walk slower. So make sure the sprouts are
+very near to each other.
+
+The second captain will only start plucking when
+* the current captain starts plucking
+* there are sprouts that are fully grown
+* the current captain isn't already targeting that sprout.
+To make the second captain continue to pluck, he needs to
+finish _before_ the current captain. Otherwise he will just stand around.
+That's why it is very hard to make the second captain pluck
+as many sprouts as the current captain.
+
+For killing the mitites, not all 10 Pikmin must be available immediately,
+since whistling isn't that slow (about 24 frames). For the first set,
+you need to whistle once anyway.
+
+Before the first set of mitites, collect the near 1-pellet. That will mean
+that we have 12 Pikmin for the second set.
+The far 1-pellet is to slow. It will not collect in time at all, and going for it
+makes collecting the near 1-pellet 100 frames slower. Meaning we'd have only
+6 Pikmin for killing the first set of mitites.
+
+
+For the 10-pellet and third set of mitites, I'm investigating if they can be done
+while CR moves. That would make it completely parallel. But doing both is very tight and
+probably not enouth Pikmin are available. But one of the two can be done that late.
 
 
 
-#### Gate cutscene skip:
+#### Gate Cutscene Skip
+Break the gate to EC at the same time as Courage Reactor collects.
+This skips a cutscene with dialog, and enables more things to happen in parallel.
+
 The gate must start falling (meaning it reached 0 HP) in the fadeout to CR's treasure cutsene.
 The gate cutscene would like to play as soon as the gate starts falling,
 but since the treasure cutscene is already triggered, the gate cutscene
@@ -102,6 +173,7 @@ Then the other day end cutscenes play and the gate cutscene never has a chance t
 
 When done right, you can skip the find-first-treasure cutscenes on the first/second? frame.
 Otherwise you need to wait in this cutscene for the gate falling animation to finish.
+Compare [this video](https://youtu.be/Rc-e1xNW6rA?si=pOvkMM4unJkn7pie&t=213) with [this video](https://youtu.be/syHt7U5HuUc?si=zlvaGLxCLXhomQE1&t=465).
 
 Note: Different cutscenes behave differently regarding which things get processed.
 Eg. Pikmin can't deal damage to the gate in the treasure collection cutscene,
