@@ -89,16 +89,41 @@ dependent. All other pellets have a fixed spot.
 
 
 
+
+#### Gate cutscene skip:
+The gate must start falling (meaning it reached 0 HP) in the fadeout to CR's treasure cutsene.
+The gate cutscene would like to play as soon as the gate starts falling,
+but since the treasure cutscene is already triggered, the gate cutscene
+gets queued. But then the treasure collection cutscene queues the
+find-first-treasure cutscene and that one takes priority. Thus the find-first-treasure
+cutscene plays. In this one, Pikmin get processed, and thus the ones
+from the gate join your party, and the gate-finished-falling-jingle plays.
+Then the other day end cutscenes play and the gate cutscene never has a chance to play.
+
+When done right, you can skip the find-first-treasure cutscenes on the first/second? frame.
+Otherwise you need to wait in this cutscene for the gate falling animation to finish.
+
+Note: Different cutscenes behave differently regarding which things get processed.
+Eg. Pikmin can't deal damage to the gate in the treasure collection cutscene,
+but can in the find-first-treasure cutscene.
+See [PikHacker's Pikmin 2 Cutscene Documentation](https://docs.google.com/spreadsheets/d/10fIMMCDvYQ-v6UBLxkTATKAEysbJh4l63G728u7GSFk/edit?usp=sharing).
+
+
+
 Cheats:
+````
 $Mitites die when trying to walk (US Final) [APerson13]
 0436cd1c 38800004
 0436cdac 38800000
+
 $Mitites die when trying to walk (JPN) [APerson13]
 0436d32c 38800004
 0436d3bc 38800000
+
 $Mitites die when trying to walk (PAL) [EpochFlame]
 0436cf2c 38800004
 0436cfbc 38800000
+````
 
 ### 0.5 Day 5
 

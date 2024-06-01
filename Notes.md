@@ -618,6 +618,7 @@ And 11 seconds faster than TAS-2!
 ### Day 4
 There are 3 Pikmin in onion, 2 in ground.
 
+#### Strategy
 Old strategy in TAS-2:
 Take out 3 from onion, pluck 2 with Olimar,
 whistle Louie, throw 1 to 5-pellet, collect 5-pellet.
@@ -673,7 +674,7 @@ pluck with both captains, hopefully 12 Pikmin
 (Right edge is easier than left edge)
 
 
-Starting to TAS.
+#### Starting to TAS.
 A under Onion on 8279.
 8295 down _ down _ down+A
 8309 B hold
@@ -729,5 +730,398 @@ old notes:
 * Timesave: Letting 10-pellet slide down the hill https://youtu.be/uMR9xyYrxV4?t=594
 
 
+#### Posting my WIP on Discord:
+There is much feedback :)
+https://discord.com/channels/177495849100640256/698992259038838864/1232383264736411658
+
+TODO Math out the strats.
+Pikmin counts, timesave for extra Pikmin in AW,
+timeloss for 1, 4 or 6 less Pikmin on gate,
+what can be done between CR dig and collect
+
+
+2 or 3 eggs at a time?
+Standard_ does two amd starts mitites at 4:54 with day4 starting at 4:08 => 46sec
+My WIP does three. (42868 - 49996) /180 = 39.6sec
+Standard_'s 2eggs strat has 10 Pikmin for mitites, with both 1-pellets collected.
+My 3eggs strat has 10 Pikmin with only one 1-pellet collected.
+
+In Standard_'s video, first two eggs are pushed, then he collects both 1-pellets, then the third egg is pushed, then plucking. Mitites are spawned 46sec day start.
+In my WIP, I push all three eggs down in one go, which takes longer. Then I collect only one 1-pellet and pluck. (The second wouldn't come in in time.) Mitites are spawned after 39.6sec.
+
+That means all three eggs is about 6sec faster, at the cost of needing collect that last 1-pellet later. Probably after digging CR, where it shouldn't lose time. Also I can do the second set of mitites with at most 12 Pikmin. 14 would provide a small benefit.
+Also, either the 3rd mitite set or the 10-pellet need to be collected before crushing the bags. The mitites would be the safe option, as I'm not sure there is time for that afterwards. The bigger timesave would be mitites later though, IF that even works.
+
+
+Mitites after bags probably doesn't work, because to few Pikmin.
+5 initial + 5 pellet + 3*2 pellet + 2*20 mitites = 56
++ 2 from far pellet is 58
++ 10 pellet + 20 mitites = 88
++ 4 dwarf bulborb + 2 pellet = 94 (with only 4 less Pikmin on gate; better than 5-pellet)
+
+For bags and CR I need about 55 Pikmin.
+Can't do all things after that, because no Pikmin are left.
+So at least mitites or 10-pellet needs to happen before bags.
+With mitites before, it's the save option, since that takes the longest and grows 20.
+With 10-pellet before, it's more risky: pluck 10, 4 from dwarf should be back, collect, sprout, pluck. All in under 40sec.
+
+
+Check if I can do both far pellets before the first mitites.
+Then I'd have 14 Pikmin for the second set.
+Plucking there doesn't lose time, as long as I don't wait for the sprouts.
+
+Near pellet: Pikmin free at 9361. Mitites at 9430.
+Both pellets: Pikmin free at 9543, but ~20f optimizable.
+That is 182f slower.
+Sprouts happen at 9240. Captains arrive a second later.
+-> Can I optimize the egg push by another second or two?
+Pikmin at onion see captain at standing position for mitites. 
+They could BARELY arrive in time for throwing.
+
+
+Re-TASing from 5-pellet again. That carry is just perfect.
+8490 DOWN to early. C:LEFT
+8500 X
+8515 R ANA 196,21
+Collision version is 4 for a short moment, then XZ speed goes down to  100.
+But the slippery geometry has collision 6. And the slowdown happens in the middle of the path too.
+
+Re-TASing from a bit further up instead.
+Egg push: First egg needs to be aligned a bit anyway. 
+In that time, I can easily punch it to 1HP.
+Aligning first egg takes at least 35 frames.
+Last hit on first egg at:
+F5: 8601
+F4: 8603
+F3: 8605
+Pushing all three eggs on the flat part doesn't work. 
+The furthest one just slides left but not over the slope.
+Pushing one egg over edge first. Reaching collision 6 at:
+F5: 8643, but turn around at 8625
+F9: 8645, actually turns around at  8632
+Collision 6 with all eggs:
+F6: 8786
+F9: 8813
+F7: 8803
+F4: 8787
+When switching back (Louie visible)?
+F7: 8898 (only 2 eggs down)
+F9: 8978 (with zoom out)
+F6: 8936
+F8: 8962
+F3: 8927 (2 eggs)
+F3: 8939
+F4: 8871 (2 eggs)
+F3: 8929 (barely not 3 eggs)
+F8: 8892 with 3 eggs! YAY!
+F3: (8886) edited with zoom out.
+
+TODO: Try to get all 3 eggs with F7
+or redo F6 to take the better F7 egg path on the slope.
+-> I saved 92f on the egg push :)
+
+
+#### Getting Dolphin working under Linux, with Wine.
+Installing wine:
+https://wiki.winehq.org/Ubuntu
+On Ubuntu 22.04:
+sudo dpkg --add-architecture i386
+sudo wget -O /etc/apt/keyrings/winehq-archive.key https://dl.winehq.org/wine-builds/winehq.key
+sudo wget -NP /etc/apt/sources.list.d/ https://dl.winehq.org/wine-builds/ubuntu/dists/jammy/winehq-jammy.sources
+sudo apt install libpoppler-glib8:{i386,amd64}=22.02.0-2ubuntu0.3
+sudo apt install winehq-stable:amd64=9.0.0.0~jammy-1
+
+On Ubuntu 24.04 it's just this to get wine 9.0:
+sudo apt install wine
+
+cd "/D/Dokumente/Pikmin2/TAS-3/Dolphin Lua Core v3.5.1/"
+wine Dolphin.exe
+
+Getting the controller to work:
+https://www.reddit.com/r/wine_gaming/comments/hf5u14/wine_control_panel_controller_configuration/
+https://selfmadepenguin.wordpress.com/2024/02/14/how-i-solved-my-gamecontroller-problems/
+
+https://generalarcade.com/gamepadtool/
+Mapping String:
+03000000d620000011a7000011010000,Bensussen Deutsch & Associates Inc.(BDA) Core (Plus) Wired Controller,a:b1,b:b2,x:b0,y:b3,back:b8,guide:b12,start:b9,leftstick:b10,rightstick:b11,leftshoulder:b4,rightshoulder:b5,dpup:h0.1,dpdown:h0.4,dpleft:h0.8,dpright:h0.2,leftx:a0,lefty:a1,rightx:a2,righty:a3,lefttrigger:b6,righttrigger:b7,platform:Linux,
+Version 2, with screenshot button:
+03000000d620000011a7000011010000,Bensussen Deutsch & Associates Inc.(BDA) Core (Plus) Wired Controller,a:b1,b:b2,x:b0,y:b3,back:b8,guide:b12,start:b9,leftstick:b10,rightstick:b11,leftshoulder:b4,rightshoulder:b5,dpup:h0.1,dpdown:h0.4,dpleft:h0.8,dpright:h0.2,leftx:a0,lefty:a1,rightx:a2,righty:a3,lefttrigger:b6,righttrigger:b7,misc1:b13,platform:Linux,
+Version 3, map screenshot as left stick press. misc1 isn't detected in Dolphin.
+03000000d620000011a7000011010000,Bensussen Deutsch & Associates Inc.(BDA) Core (Plus) Wired Controller,a:b1,b:b2,x:b0,y:b3,back:b8,guide:b12,start:b9,leftstick:b13,rightstick:b11,leftshoulder:b4,rightshoulder:b5,dpup:h0.1,dpdown:h0.4,dpleft:h0.8,dpright:h0.2,leftx:a0,lefty:a1,rightx:a2,righty:a3,lefttrigger:b6,righttrigger:b7,platform:Linux,
+Now I can use the screenshot button to save state 1! YAY!
+
+The pro controller is different. Downloaded mapping vs. created one:
+0500b7154c69632050726f20436f6e00,Nintendo Switch Pro Controller,crc:15b7,a:b1,b:b0,back:b8,dpdown:h0.4,dpleft:h0.8,dpright:h0.2,dpup:h0.1,guide:b12,leftshoulder:b4,leftstick:b10,lefttrigger:b6,leftx:a0,lefty:a1,misc1:b13,rightshoulder:b5,rightstick:b11,righttrigger:b7,rightx:a2,righty:a3,start:b9,x:b3,y:b2,hint:SDL_GAMECONTROLLER_USE_BUTTON_LABELS:=1,platform:Linux
+0500b7154c69632050726f20436f6e00,Nintendo Switch Pro Controller,a:b0,b:b1,x:b2,y:b3,back:b8,guide:b12,start:b9,leftstick:b10,rightstick:b11,leftshoulder:b4,rightshoulder:b5,dpup:h0.1,dpdown:h0.4,dpleft:h0.8,dpright:h0.2,leftx:a0,lefty:a1,rightx:a2,righty:a3,lefttrigger:b6,righttrigger:b7,platform:Linux,crc:15b7,
+
+sudo nano /etc/profile.d/sdl2-gamecontroller.sh
+#!/bin/bash
+export SDL_GAMECONTROLLERCONFIG="03000000d620000011a7000011010000,Bensussen Deutsch & Associates Inc.(BDA) Core (Plus) Wired Controller,a:b1,b:b2,x:b0,y:b3,back:b8,guide:b12,start:b9,leftstick:b13,rightstick:b11,leftshoulder:b4,rightshoulder:b5,dpup:h0.1,dpdown:h0.4,dpleft:h0.8,dpright:h0.2,leftx:a0,lefty:a1,rightx:a2,righty:a3,lefttrigger:b6,righttrigger:b7,platform:Linux,"
+
+Then reboot.
+wine reg add "HKEY_LOCAL_MACHINE\System\CurrentControlSet\Services\winebus" /v "DisableHidraw" /t REG_DWORD /d 1
+wine reg add "HKEY_LOCAL_MACHINE\System\CurrentControlSet\Services\winebus" /v "Enable SDL" /t REG_DWORD /d 1
+wine control
+
+Only save state button is missing.
+
+Dolphin can't overwrite its settings files for some reason.
+Thus manually delete them before OK-ing the controller config.
+/D/Dokumente/Pikmin2/TAS-3/Dolphin Lua Core v3.5.1/User/Config/
+GCPadNew.ini  and  Hotkeys.ini
+
+Creating a start menu shortcut:
+
+nano "Dolphin.desktop"
+
+[Desktop Entry]
+Name=Dolphin TAS-3
+Exec=wine "/D/Dokumente/Pikmin2/TAS-3/Dolphin Lua Core v3.5.1/Dolphin.exe"
+Icon=/D/Dokumente/Pikmin2/TAS-3/Dolphin Lua Core v3.5.1/Sys/Resources/dolphin_logo.png
+Path=/D/Dokumente/Pikmin2/TAS-3/Dolphin Lua Core v3.5.1/
+Type=Application
+Categories=Wine;Games;
+
+Then drag&drop the file onto the task bar.
+
+
+#### Asked about plucking:
+> when you start plucking, there's a particular way to do it such that the first seed you pluck does the fast animation rather than the normal slow one
+
+@curtis:
+ok so the first time you pluck, from neutral, its a slower pluck, and then if youre continuously pressing A to auto-pluck without walking to each seed, then the 2nd pluck onward is fast, until you fully stop plucking and have movement control again
+but sometimes you stop plucking and then start plucking again and the first pluck you do on the 2nd round is also the fast animation
+for the longest time, we had no idea what could be causing that. i think jpep said recently that it might be because when youre doing 2-captain plucking, your 2nd captain can take the seed that the main captain tries to pluck, and then the main captain has to go to another seed, but still continues the fast-plucking animations on subsequent plucks. i think the idea is that if you get cut off by your second captain, and then you cancel plucking somehow around that time, the flag never gets set to go back to the slow pluck animation
+
+Ok thanks. Does that mean you can't just get the fast plucking at the beginning?
+as far as we know, no. like, theres no way to like start the run with the fast pluck animation
+
+
+#### Plucking
+Timing the first two plucks on day 4:
+1 from 8330 to 8350 to 8368 => 20, 18 => 38f
+2 from 8376 to 8382 to 8390 =>  6,  8 => 14f
+Also 8f of "pluck adjust" inbetween.
+
+
+Throwing to far pellet now.
+Without whistling, Pikmin are throwable at 8942.
+Whistle at 8898. But then pellet doesn't collect.
+Whistle at 8904.
+With whistling at 8927.
+
+Throwing, hit:
+F5: 8981, 9006
+F6: 8976, 9003
+F5: 8974, 9001
+F6: 8974, 9001
+Second throw at 8987.
+
+RNG manip:
+F5: throw at 9035
+F6: throw at 9036 (same)
+F6: stop at 9068 until 9078
+F7: stop at 9088
+F9: stop at 9086
+F2: stop at 9083, long
+F2: stop at 9086 until 9104
+whistle Olimar at 9130.
+
+TODO: Turn around camera before whistling.
+I TASed 8sec today. Rerecords: 7758.
+
+Ok, that worked.
+Also I'm now TASing on Linux, on my new Framework laptop! YAY!
+
+RNG manip for sprouts. When do come out?
+F5: 9220, 9229, 9243, 9248 (glow 9279 => 59f)
+F6: 9220, 9229, 9242, ???? (glow 9279 => 59f)
+F6: 9212, 9219, 9237, ???? (glow 9270 => 58f)
+F7: 9210, 9211, 9220, 9229 (glow 9269 => 59f)
+F8: 9200, 9213, 9217, 9236 (glow 9258 => 58f)
+F9: 9185, 9203, 9205, 9229
+F4: 9178, 9201, 9203,
+F5: 9221, 9224
+F5: 9195, 9195, 9201
+F6: 9197, 9201, 9226
+F7: 9177, 9198, ????
+F8: 9177, 9202, 9206
+Sadly it's the second sprout that is so fast in F4, F7, F9.
+I want the first two to be that fast.
+Another session. Delete F3, F8, F9, F6, F5. Reassign F4, F7.
+F3: 9177, 9194, 9201
+F4: 9177, 9198, 9228
+Run until, then measure:
+F5 9162: 9220, 9230, 9237
+F6 9160: same
+F6 9158: 9198, 9220, 9223
+F5 9159: 9220, 9220, 9229
+F6 9157: 9194, 9220
+F0 9156: 9220
+F5 9155: 9196, 9220
+F5 9153: 9184, 9220
+F6 9151: 9177, 9203 right seed first
+F7 9150: 9180, 9208 left seed first
+F0 9149: 9201
+Run until 9150, start again at
+F8 9160: 9180, 9215
+F8 9161: 9180, 9215
+F8 9162: 9180, 9210
+F0 9163: 9180, 9212
+F8 9164: 9180, 9198
+F8 9165: 9180, 9294
+F0 9166: 9180, 9216
+F0 9159: 9180, 9216
+F9 9158: 9180, 9177 !!! YAY
+I can barely see when the first one sprouts.
+Might even be 9175 instead of all the 9180 above.
+They are big at: 9234 and 9236.
+Landing particles happen at 9159 and 9161.
+So fastest surfacing is 16f and 75f until pluckable.
+
+Now manipulating rest of the sprouts.
+Landing, +75f pluckable:
+#1: 9159, 9234, Louie +2+38 => 9274 finished, goto #4 (left)
+#2: 9161, 9236, Olimar  +38 => 9274 finished, goto #3 (middle)
+#3: 9176, 9251, must be ready at 9274
+#4: 9195, 9270, must be ready at 9274, +50? => 9324
+#5: 9212, 9297, must be ready at ~9324
+
+Doable, but very tight.
+Probably best to manip RNG for #3 and #4 with C-Stick.
+Also adjust angle to stand on the right spot for
+plucking as soon as possible.
+For #3 and #4, Louie must pluck the farther one so
+he finishes after Olimar, and Olimar gets to do #5.
+Rerecords: 7977. That's two hundred for the first two sprouts.
+
+
+Next session. Walk at a different angle.
+F2: Before, at 9135.
+F3: F9 but just after landing
+F5: Just two frames of walking
+Trying different angles. Run until 9150, start at 9158 for at least a frame.
+When is Olimar below X=-80?
+F6: 9196
+F7: 9197
+F0: 9208
+F8: 9200  <-- let's use the more downwards angle.
+
+Manipulating the third sprout. Run until, sprout appears:
+F4: 9160, 9218
+F0: 9161, 9218
+F0: 9162, 9234
+F0: 9163, 9234
+F4: 9164, 9194, pluckable at 9253. Nice.
+Can start tunning again at:
+F5: 9173? Almost same timing.
+F6: 9174
+F7: 9174, but better angle.
+
+Manipulating fourth sprout. Run until, sprout appears:
+F8: 9174, 9224
+F0: 9175, 9236
+F8: 9176, 9211, pluckable at 9270.
+
+Now position for plucking. Olimar must start first.
+Fifth sprout doesn't matter much.
+F9: Move again at 9193.
+Can start plucking at: 9233.
+Olimar is in pluck state at:
+F3: 9246 (both)
+F4: 9243
+F5: 9242 (both)
+F3: 9243 doesn't work.
+F4: 9240 doesn't work.
+F5: 9238 still doesn't work.
+I think Olimar always goes to the farther one, even if Louie aborts plucking. Annoying.
+Try with Louie on the other sprout first. Nope.
+
+Ok, then do it with Louie plucking 3 Pikmin.
+F6: Louie finishes at 9322, while Olimar is still plucking.
+When do all captains pluck; finished
+F6, F5: 9243
+F4: 9246
+F3: 9244
+F3: 9242; 9325
+F4: 9242; 9322
+F0: 9242; Third sprout to slow.
+F3: late; 9322
+F3: 9241; 9320  <-- let's use this.
+
+Next: Test mitites with the mitites hack.
+Current rerecords: 8276.
+Maybe C-stick Pikmin forwards before plucking? Doesn't really do anything.
+Can throw again at 9327.
+
+Egg breaks at:
+F4: 9387
+F4: 9371
+F5: 9390 but mitites
+F6: a bit better positioning
+First mitite gets killed at 9427. When to throw?
+I think this position is to near.
+The first pellet is about a second to slow for those Pikmin to be useful.
+I would need extra whistling.
+
+
+#### Pellets & Plucking V2
+TODO: test how much exactly those Pikmin are to slow. => 55f
+TODO: How much time does Louie take on plucking third sprout? => 19f
+TODO: How much time does extra whistling cost on mitites? => 24f per whistle
+
+The problem is that I only have 5 Pikmin to throw on the mitites.
+Then I'd have to whistle and get some of those, plus two from pellet carry.
+That will get back less than 5, so a third round of whistling is needed.
+
+In TAS-2, on the second batch, I have 13 Pikmin.
+1 on egg, 2 on pellets, 10 for mitites. Somehow that's 1 to few.
+For third batch, I have 14 for mitites, of which 2 are left.
+
+So for TAS-3, on second batch, 12 total Pikmin should be enouth.
+1 on egg, 10 on mitites, 1 reserve. Will be a bit harder.
+Pellets are not in the way.
+I don't need the extra 2 from the far pellet.
+
+New plan:
+* Redo the part after switching to Louie
+  and only get the near pellet. Bottelneck are the sprouts from 5-pellet
+  and 2-pellet collecting.
+  Then I have 9 Pikmin for first mitites.
+* Better sprout pattern for plucking.
+  I want Olimar to pluck 3 and Louie only 2.
+  That wasn't possible with previous pattern.
+  First two sprouts need to be reasonably far apart,
+  but close enouth for Olimar to get to it before Louie.
+  Third and forth must be in between first and second. Order doesn't matter.
+  Olimar must finish first both times.
+
+
+Timing previous:
+Louie switch at 8877
+Second pellet hit at 9057
+Mitites appear at 9371, vulnerable at ~9427
+First pellet collects at 9397
+Would need more Pikmin at 9400
+Can throw new Pikmin earliest at 9455. => 55f to slow.
+
+When going for near pellet first, hit at: 8958  (F4)
+That's 100f or 3.3sec faster. So ~1sec more faster than strictly needed.
+
+Plucking third sprout with Louie: Takes from 9301 to 9320 => 19f
+
+Extra whistling: Looking at TAS-2. Youtube frame-advance goes at 25 FPS. (WTF?)
+First whistle: 19/25 sec
+Second whistle: 20/25 sec = 0.8sec
+Second batch, first whistle: 20/25 = 0.8sec  (would be 24f)
+
+With the new plan I could save about 19f + 24f = 43f minimum.
+Maybe ~67f if a fourth whistling is required.
+
+
+Making a small video. Commands:
+cd /D/Dokumente/Pikmin2/TAS-3/Dolphin\ Lua\ Core\ v3.5.1/User/Dump/Frames/
+ffmpeg -i framedump0.avi -i ../Audio/dspdump.wav -map 0:v -map 1:a -c:v copy audiovideo.mp4
+ffmpeg -i audiovideo.mp4 -filter:v scale=360:-1 -vcodec libx265 -crf 25 compressed.mp4
 
 
