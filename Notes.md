@@ -1065,7 +1065,7 @@ The first pellet is about a second to slow for those Pikmin to be useful.
 I would need extra whistling.
 
 
-#### Pellets & Plucking V2
+#### Pellets & Plucking V2: The Plan
 TODO: test how much exactly those Pikmin are to slow. => 55f
 TODO: How much time does Louie take on plucking third sprout? => 19f
 TODO: How much time does extra whistling cost on mitites? => 24f per whistle
@@ -1123,5 +1123,99 @@ Making a small video. Commands:
 cd /D/Dokumente/Pikmin2/TAS-3/Dolphin\ Lua\ Core\ v3.5.1/User/Dump/Frames/
 ffmpeg -i framedump0.avi -i ../Audio/dspdump.wav -map 0:v -map 1:a -c:v copy audiovideo.mp4
 ffmpeg -i audiovideo.mp4 -filter:v scale=360:-1 -vcodec libx265 -crf 25 compressed.mp4
+
+
+#### Pellets & Plucking V2: Just do it!
+Press A at, throw at
+F9: 8928, 8938
+F3: 8928, 8935 good enouth.
+
+RNG when Pikmin picks up pellet can be influenced
+after the throw. Nice.
+
+Angle: 206|23
+Collect at:
+F4: 9294 slow...
+F5: 9287
+F4: 9267
+F5: 9274
+F5: 9253 very good.
+With that, the near pellet collects 144f faster
+than with both pellets, instead of the estimated 100f.
+
+Sprout RNG:
+F4: good first three.
+F5: All 5 good, but bad order.
+F6: Might work out perfectly.
+Nope! Olimar always uses the slow animation.
+I think the second captain always uses the slow animation,
+so my strat that Olimar plucks three can't work.
+F7: 4 much more together, good order
+F8: 4 perfect grouping
+F4: Zooming
+F4: 5 somewhat near
+F4: Perfect grouping of all 5 sprouts :)
+
+Sprout timings are the same as last try.
+Louie spent 4+7+4=15f in pluck adjust state.
+Sprouts enter the ground, +75f pluckable:
+1: 9159, 9234, Louie  +38 => 9272 finished, goto 3
+2: 9161, 9236, Olimar +38 => 9274 finished, goto 4; (actually finished at 9278 in last try)
+3: 9178, 9253, Louie goto 5
+4: 9194, 9269
+5: 9212, 9285
+
+I'm at 8819 rerecords.
+Next time: RNG manip for growth time.
+
+F3: Perfect grouping start.
+left sprout, right sprout
+Previous try: 9175, 9177
+F4: 9199, 9200
+F5: 9201, 9187
+F6: third sprout at 9177
+F7: 9175, 9209, 9217, RNG index: 896 on 9159; walk at 9153
+F8: 9175, 9175. WTF?! That's better than last time!
+How do sprout grow times actually work?
+They are both pluckable at 9234.
+So second sprout takes only 73f to be pluckable, and becomes visible after 14f.
+Growing animation always takes 59f.
+
+Anyway. Let's manip sprout 3.
+It needs to be grown at 9272; thus visible at 9213.
+F4: 9206; good enough.
+
+Fourth sprout: Also needed at 9213.
+F5: 9210
+
+Fifth sprout: 9272 + 14f fast pluck => 9286 ready -59f => 9227 visible
+Wait, that's impossible.
+Measure in last try: Needed at 9301, visible at <9240
+F6: 9234, Kinda good enough
+F7: 9227; Wait I did the impossible
+Hit ground at 9212 -> 15f in ground. Nice.
+
+Rerecords: 8911
+Next: Plucking. How few pluck adjust frames can I get?
+Press A on 9231.
+Louie in pluck state, walk state after third:
+F9: 9241, 9320
+F5: 9237, 9315 -> investigate
+F4: 9244, 9341
+F6: 9241, 9325
+F8: 9241, 9349
+F4: 9238, 9314
+F8: 9238, 9311 (3, 1, 2) Pluck adjust frames
+F4: 9236, 9311 (1, 4, 2)
+F8: 9238, 9311 (3, 1, 2)
+F6: 9236, 9309 (1, 2, 2) YESSSSS -> F3
+That's 6 frames faster than last try :)
+
+I'm at 8990 rerecords. Now: throw a Pikmin on eggs.
+Can throw at 9316. Egg breaks:
+F9: 9371
+F4: 9358
+F5: 9360 but left egg
+
 
 
