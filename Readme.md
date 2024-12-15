@@ -197,9 +197,12 @@ $Mitites die when trying to walk (PAL) [EpochFlame]
 0436cfbc 38800000
 ````
 
+
+
+
 ### 0.5 Day 5
 
-## 1. Emergence Cage
+## 1. Emergence Cave
 
 ## 2. Hole of Beasts
 

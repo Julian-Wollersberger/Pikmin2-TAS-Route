@@ -981,11 +981,11 @@ So fastest surfacing is 16f and 75f until pluckable.
 
 Now manipulating rest of the sprouts.
 Landing, +75f pluckable:
-#1: 9159, 9234, Louie +2+38 => 9274 finished, goto #4 (left)
-#2: 9161, 9236, Olimar  +38 => 9274 finished, goto #3 (middle)
-#3: 9176, 9251, must be ready at 9274
-#4: 9195, 9270, must be ready at 9274, +50? => 9324
-#5: 9212, 9297, must be ready at ~9324
+1: 9159, 9234, Louie +2+38 => 9274 finished, goto #4 (left)
+2: 9161, 9236, Olimar  +38 => 9274 finished, goto #3 (middle)
+3: 9176, 9251, must be ready at 9274
+4: 9195, 9270, must be ready at 9274, +50? => 9324
+5: 9212, 9297, must be ready at ~9324
 
 Doable, but very tight.
 Probably best to manip RNG for #3 and #4 with C-Stick.
@@ -1216,6 +1216,735 @@ Can throw at 9316. Egg breaks:
 F9: 9371
 F4: 9358
 F5: 9360 but left egg
+
+With the redo, it's a lot faster! YAY
+before: 49630 inputs
+now:    49048 inputs 
+= 582 => 3,23sec
+
+#### Code diving:
+fakePiki.cpp:1340
+	// If moved at least least 1.0 units since last frame,
+	// random chance to make splash/dust while walking
+	This is where RNG comes from!
+
+void FakePiki::move(f32 rate)
+Important for captain movement.
+
+mapMgr->traceMove
+seems to do the mathy stuff.
+
+I think the reason why it doesn't work is that the wall triangles in VoR are
+to steep to be considered floors. The threshold is 0.6f of the y component.
+Thus it doesn't touch a floor anymore and the bounceCallback is called.
+
+This sets mFloorTriange, which is checked later. But only if sweep.mNormal.y >= 0.6f
+mapMgrTraceMove.cpp:150
+    if (sweep.mNormal.y >= info.mFloorThreshold) {
+        // triangle we're intersecting is flat enough to be floor
+        info.mFloorTriangle = tri;
+
+Later, this code is executed when we don't touch a floor anymore:
+and otherwise transitions from Nave FlickState to NaviKokeDamageState (where we don't move anymore.)
+naviState.cpp:3738
+    void NaviFlickState::bounceCallback(Navi* navi, Sys::Triangle*)
+
+Triggered here:
+fakePiki.cpp:1271
+    if (!mFloorTriangle && info.mFloorTriangle) {
+        // we were falling and next frame we hit something - bounce
+        bounceCallback(info.mFloorTriangle);
+    }
+
+The value of sweep.mNormal gets set to mTrianglePlane.mNormal.
+GeomIntersection.cpp:65
+    sweep.mNormal             = mTrianglePlane.mNormal;
+
+I want to display plane.mNormal.y for every triangle in the VoR bulborb area.
+Or at least color them when `mNormal.y >= 0.6f`.
+
+#### Try Strats with Mitites Cheat
+I saved a savestate after plucking. Now try strats
+with the insta kill cheat, so I don't have to do
+mitites twice.
+
+
+New strat by _Standard:
+Don't flower all Pikmin on day 4.
+Instead, throw 5 leaves into purple candypop and
+flower the rest with the wisp by the AW gate.
+Those leaves cost at most 1 sec and flowering all
+costs at least 3sec.
+
+My thoughts:
+* I'm sceptic it only costs 1sec. Just because
+  all flowers is easier to TAS. Also I want purples on
+  globe bridge in AW as soon as possible. Leaves lose extra
+  time here.
+* Only 4 or 5 leaves and throw them into candypop:
+  That seems better. The last few Pikmin take extra
+  long to flower, because their pluck animation takes
+  so long. Shouldn't lose time on day 5 or EC.
+  On day 4, use them to carry dwarf bulborb and pellet?
+  Then max 4 leaves.
+* Mitigate the flowering timeloss by luring one
+  mitite from second set very close to the onion.
+  Then the nectar is nearer.
+
+I won't go with more than 4 leaves. To risky for me.
+To test: quick switch to leaves possible? -> Yes
+Lure mitite? Later. But before growing.
+
+
+General strat:
+* Kill first 10 mitites
+* Manip sprouts from pellet
+* Try to not trigger flower cutscnene?
+  Hopefully after all mitites are moving.
+  Or as early as possible with all Pikmin.
+* While Pikmin are collecting, pluck two sprouts.
+
+
+#### First Set of Mitites
+Screw it, I'm doing the first set immediately.
+Can throw at 9316.
+Egg can break at 9358.
+
+F4: Egg breaks at 9371, RNG index 3875
+I have a very bad RNG right now.
+F9: Mitites at 9371 :'(
+F6: Mitites at 9359. Finally!
+F3: Mitites if pressing A immediately
+
+When can I first throw?
+First death at ~9426
+9395 yes
+9392 yes
+9391 yes
+9390 no
+Can walk forward again at 9375 without panic
+Can't whistle the thrown red yet :'(
+F4: walk forward until 9363, no panic
+Here I'll insert some C-Sticking later to manip
+sprouts and walk a mitite to onion.
+Somehow no it's frame 9392 where I can throw earliest. TAS Studio difference?
+
+Big question: Can I do 3-frame throws? Let's try!
+Well there goes the first crash.
+F5: three dead, second try
+F6: four dead
+F7: five dead
+Problem with RNG. Indexes for F7, F8:
+9400: 602, 602
+9404: 628, 628
+9407: 666, 666
+9408: 672, 672
+9409: 677, 676
+9410: 684, 683
+9420: 751, 727
+9430: 801, 768
+9440: 867, 868
+F8: five dead, adapted
+F9: next hit, but RNG changed for others
+F9: another extra hit, but still bad RNG
+I'll only throw 8 Pikmin in the first volley, then whistle, then the last two.
+F9: six hits, one miss
+F4: 8th lined up. six hits, two misses.
+
+First sprout is luckily very good; middle of mitites 
+Second sprout comes out at end, frame 9422.
+F4: seven hits, one miss, good sprouts
+F5: Different kombination of hits
+F6: Another, now one of the earlier doesn't get hit. AHHHHH
+F3: Safety save of the start before mitites.
+
+I'm at 9813 rerecords, and ~9450 frames.
+That means I have more rerecords than frames now.
+
+Idea: Can I throw a Pikmin to egg before plucking?
+That would save even more time.
+F9: Egg breaks at 9263 instead of 9358. That's 95 frames!
+Do I have enouth time to kill all? Other would burry at 9554, but 9 killed at ~9440. So 120f or 4sec left. Easy!
+I have almost no time (~15f) to RNG manip :(
+It would be sooooo cool if this works out :)
+
+Measuring previous plucking. F4,   F9,   F8
+A press for pluck at:        3232, 9233, 9233 (button displayed in overlay. Inconsistent with TASstudio.)
+Louie pluck state:           9236, 9239, 9236
+Louie finished (walk state): 9309, 9317, 9210
+
+F8: RNG index for mitites: 3329
+I'll take that 1 frame timeloss. To hard to manip better.
+Now RNG manip with C-Stick
+F5: YESSSS Mitites! 
+Egg breaks at 9274. That's only 84f earlier, but I'm limited by plucking anyway. RNG index 3279.
+I'm at 9990 rerecords. Almost 10000 :)
+
+Mitites are all dead at 10680 rerecords.
+I took a quick break and suddenly it's end of September.
+Now I "just" need to collect the mitites. But the egg is in the way.
+
+Quick test: C-Sticking finishes picking up (with breaking the egg)
+9719, 9688, 9671
+Throwing: First Pik lands at ~9674
+So C-sticking is faster but very hard with the egg in the way...
+I can push it away with the captain.
+Redo the whistling a bit and nectar on the second nectar might work.
+Cutscene START at 9559
+
+Which order to collect? which mitite takes the longest?
+From left to right:
+1: 9676 to 9828 => 152
+2: 9688 to 9849 => 161
+3: 9687 to 9843 => 156
+4: 9702 to 9868 => 166
+5: 9802 to 9971 => 169
+6: 9671 to 9840 => 169
+7: 9669 to 9841 => 172
+8: 9668 to 9827 => 159
+9: 9686 to 9835 => 149
+leaf:9818 10038 => 220
+
+They are clustered very close together, especially the problematic ones.
+7654 first, throw to 8 and 9. 321 last.
+
+Flowering makes walk 50f shorter. 
+Collecting without flowering: First at 9755. With: 9794
+So flowering does lose time, but I'm pretty sure I couldn't
+collect all 10 mitites without getting some flowered.
+Which means I'd tank the timeloss anyway. Even harder on second set.
+Also Pikmin must run from onion to captain for second set.
+Flowering should be the difference between on time and waiting.
+
+Nectar is tangible at 9488.
+C-stick, all mitites could be collected at 9851. 
+But throwing can do that too.
+F9: All mitites collect at 9837. With throwing :)
+
+
+#### Second Set of Mitites
+How quickly can I get the next batch of mitites? Random tries.
+9917, 9922, 9904
+Animation would suggest 9902 or 9903. Let's try 9904.
+F4: Mitites at 9904, RNG index 7085. But position is bad.
+F5: Same, better position.
+F7: Adjusted to be even farther away.
+F8: No Pikmin panic.
+Now it's 11215 rerecords. Productive day :) 
+
+When to hit? 9904 to 9919 to 9957 => 15f, 53f delay
+On first set: Plucking inbetween.
+On first try of first set: Didn't optimize. 
+Spawn 9371, Death 9424 => 53f
+Ok, A on 9919 seems optimal.
+
+Killed all ten in 2 to 3 hours. I'm getting good at this.
+The throwing is so clean. One frame away from perfection :)
+Now it's 11449 rerecords. Took just 234. That's 80 rr/h to 120 rr/h
+
+Sprout manip. How many land in lower half?
+F4: 3
+F5: 2-4  all whistled
+F6: 4    throw
+F7: 2-5  throw
+second round
+F7: 0-2  but bad throw
+F7: 0-2  good
+F8: 2-3  far throws
+F8: 0-2  far throws. But mistake now in first throw.
+F9: 0-2  repaired it.
+F9: 0-2  another throw
+F4: 0-2  better angle
+Third round. Just two sprouts, so should be easy.
+First throws. C-sticking doesn't work because mitites take so long to become tangible.
+F5: 1    9 picked up
+F6: 0    all picked up
+Fourth and Fifth are single sprouts. 
+F7: 0    picked up a Pikmin for pellets.
+
+#### Pellets & Plucking
+So much happens in parallel now.
+10123 Pikmin from first mitite free again
+10135 near pellet grow animation start
+10158 pellets tangible
+10175 first sprout pluckable
+10206 big group of mitites collect
+10374 near pellets collected earliest
+10464 far away pellet collects
+10538 second round of sprouts pluckable
+10700 collection of 10-pellet when rushed 
+11030 sprouts from 10-pellet
+
+What to do?
+Don't do plucking first. Sprouts take to long.
+10-pellet will get in very late. Probably can't pluck those Pikmin. Measure!
+That means 56 Pikmin, or 58 with far pellet. Enouth for Early CR.
+Those extra two would be nice to avoid long walking when plucking.
+I have 1 Pik immediately, 1 early enough, could whistle off last mitite.
+Plucking first round of 22 takes 380f.
+By that time, first sprouts of second round are pluckable.
+
+* Speed up far pellet?
+  No, barely fast enouth already
+  When sped up, collects at 10357. Thrown at 10090.
+* Or snipe near pellets?
+  Seems best
+* Or Wait for 10-pellet and get that as quick as possible?
+  Nope, would waste 100 to 150 frames to wait for those sprouts
+
+When are pellets tangible?
+throw: 10150, 10145, 10144
+hit:   10162, 10159, 10158
+Do that with a longthrow and I can be there to pluck without timeloss.
+pellet collects at 10374.
+
+There needs to be 165f between one collection and the next for sprouting.
+There is less time between near and far pellets.
+But that last mitite also needs to be collected.
+
+The route idea:
+* Position captains for plucking
+* whistle first Pikmin
+* sprout RNG manip with C-stick
+* long throw to pellets
+* pluck at least two Pikmin
+* stop before leaf Pikmin arrives, whistle
+* throw to 10-pellet
+* near pellets get in, hope that they also collect last mitite
+* pluck the rest until 55 Pikmin
+
+
+First Pikmin land at 10089.
+Can whistle at 10084.
+Can manip from 10040.
+
+When do first two sprouts on left side come out?
+F4: 10126
+F5: 10117
+F6: 10110
+Slower sprout can be maniped differently when running at 10087.
+There are 8 frames to improve in theory, but I can't get that. F6 it is.
+F4 Bottleneck actually is throwing now.
+And Olimar is in the way.
+
+F5: Sniped first pellet
+F6: Sniped both, Optimized
+F9: Plucked 3 Pik
+F5: First pellet is to fast. Arrives at 10317. I need >25f worse pickup RNG.
+    But they do pick up the 10th mitite, because it was pushed.
+    Overall, sprouts are made fast enough.
+F7: Strategy: Try pluck 4 instead of 3. I'm a few frames to fast for whistling anyway.
+F6: Success! 4 plucks. Positioning Olimar is hard.
+    Pellet arrives a bit later, but not enough. 10326
+    Pluck at 10176, carry at 10219
+F4: Pluck at 10179; still 10219. Can't get anything different.
+F4: 10176, 10221, 10327.  C-Stick for the rescue! But not different enough.
+Can't get RNG manip to work.
+F5: Whistle first pellet instead. Plucked Pikmin picks it up.
+This also loses some time.
+
+Ok. Onion will only do two rounds, not three at first. Third round are only two Pikmin.
+F7: Optimized whistle.
+Don't speed up far pellet, to let out 4 sprouts faster.
+Throw to 10-pellet:
+F8: 2pik
+F9: 4pik
+F8: 5pik
+F8: 8pik
+F9: 10pik, carries at 10412
+F8: 10pik, 10408
+F4: wieder 10412...
+F4: Pluck at 10334. Carries at 10410. I think that's RNG. Oh well.
+
+Sprout manip time, again. How many are in a bad direction?
+F4: 4-5
+F5: 3
+F6: 1, others perfect
+Second round
+F6: 1,   2 good
+F7: 1    3 good; taking.
+F8: 0-2, 2 good
+
+Now, plucking. When 20th, 40th, 50th?
+F9:  10646, 10825, 10982. Just spamming A.
+F8:  10638, 10840, 11003
+     Here you can se a bug in action: Fast pluck cancelation.
+     Olimar plucks, Louie wants to also go to same sprout, Olimar finishes,
+     Louie doesn't pluck anymore.
+     But next pluck from Louie is still fast!
+F6: ~10632, 10825, 11009
+
+I think I want to redo from the second set of mitites onwards.
+* That tenth mitite getting carried by a leaf is problematic
+* Far pellet also has bad timing. Throw flowered Pikmin instead.
+* Near pellets are a bit to early
+* Sprout manip is very messy. Loses many seconds on plucking.
+* That one nectar really is in the way. Would be awesome otherwise.
+
+Test out the strat low-optimized.
+F5: All 55 Pikmin flowered
+F5: All flowered, right direction
+F7: Switch-throw with a leaf
+F7: 10 Pikmin on bag
+F6: 15 Pikmin on bag
+
+F6: Cutscene starts at 11399 or input 61798 or 5:43.32.
+End at 11436.
+That's 29sec faster than TAS-2. All for Early CR strat and late 3rd set of mitites.
+For a total of 54.1sec ahead of TAS-2. Wow :)
+
+
+F6: CR 14766, gate 15085
+With 31red, gate is ~10.6sec to slow.
+
+Testing Pikmin numbers on gate with dismiss:
+31: 14020 to 16130 = 70.3sec
+32: 14000 to 16041 = 68.0sec
+33: 14000 to 15981 = 66.0sec
+34: 14000 to 15924 = 64.1sec
+35: 14000 to 15868 = 62.3sec
+
+How long does plucking take?
+From 10335 to 11055 plucked 34pik
+That's 21 frames per Pikmin.
+
+How many Pikmin do I actually have at most? ->68
+20 CR, 36 gate means 12 left for mitites. That means 37 on gate would be possible.
+
+Transporting the dwarf bulborb:
+3 leaves:  12807 to 14164 = 1357
+3 flowers: 12934 to 13940 = 1006
+4 flowers: 13073 to 13928 = 855
+
+Learnings:
+* 3 leaves on bulborb are way to slow.
+  Even 3 flowers are a few sec to slow.
+* Pellet from bulborb is fast enough.
+* With 31red, Gate is limiting factor.
+* 36 reds are needed for gate, maybe 37
+
+Every additional Pikmin to pluck makes sprout manip that much harder.
+I'll get the pellet though, that still seems worth it.
+Meaning 20 + 36 + 1 = 57 Pikmin to pluck.
+
+How long do mitites take? Measured on second set.
+9850 throw to break egg
+9904 mitites spawn
+10210 all collect
+10550 sprouts appear
+=> 700f
+then plucking 20*21 = 420f
+=> 37.3sec
+then a few (?) sec flowering.
+Also before I need to pluck 10pik. 10*21 = 210
+=> ~44sec total time needed minimum.
+
+How much waiting time do I really have?
+From arriving at onion at 13553 to collecting CR at 14771
+1218f = 40.6sec
+
+I need to save >4 more seconds. Where to do that?
+* If time really runs out, I won't pluck the last few Pikmin. That's always an option.
+* I can stand at throwing distance away from CR instead of swarming. That saves ~60f = 2sec.
+* Pluck 4 more Pikmin beforehand and collect dwarf body. ~84f or 3sec.
+* Only 36 Pik on gate, not 37. Forces CR ~1sec slower.
+Still pretty tigth, as flowering is not accounted for.
+
+F9: Saved as 0.4.10 Post bag experiments
+Rerecords: 12989, Frames: 13137
+
+#### Redoing second set of mitites
+* That tenth mitite getting carried by a leaf is problematic
+* Far pellet also has bad timing. Throw flowered Pikmin instead or snipe
+* Near pellets are a bit to early
+* Sprout manip is very messy. Loses many seconds on plucking.
+* That one nectar really is in the way. Would be awesome otherwise.
+Generally I need more sprouts pluckable earlier and nearer.
+
+Far pellet strat. When collecting?
+Original: 10464
+F8 Snipe: 10355
+F7 Snipe+flowered: 10259
+
+Old timings for comparison:
+10206 big group of mitites collect
+10327 first 2near pellets collects
+10363 second near pellet collects
+
+=> Sniping far pellet with a leaf has amazing timing.
+If first near pellet stalls a bit more, the onion can spit one more round of second mitites.
+
+Egg can be broken at 9904. Let's try 9903.
+F4: 9905
+F3: 9904
+F5: 9902
+F6: 9902 can have mitites!
+RNG index at 9901:  ..8799
+But far pellet snipe didn't work :'(
+F3: 9902 with pellet snipe
+F3: 9902 mitites
+
+Weird trick: Walking upwards at angle
+128|187 makes the captain walk with speed 130 instead of 160.
+Neat to cover same distance in different amount of time or RNG calls
+
+Old starts throwing at 9919.
+This time I'm a bit farther away.
+F4: 9915
+F5: 9913 but very near
+F4: 9914 far
+F6: prepare movement to throw 10pik in 30f
+F7: Killed farthest mitite
+F8: 3 mimites
+F3: 4 mitites
+F4: 6 mitites
+F5: 7 mitites
+F6: 8 mitites
+F6: 9 mitites
+F7: 9 mitites, earlier one misses. Also nectar is in the way again.
+F8: all 10 mitites. Nectar is still in the way.
+
+Last Pikmin gets thrown 6f earlier than previous try :)
+
+Transporting. 
+Furthest: 10366 to 10534 = 168
+next:     10213 to 10369 = 156
+third:    10113 to 10248 = 135
+I could save at least 12f if that mitite would not walk so far.
+Combined with still to near nectar, I'll redo it again.
+Rerecords: 13382
+
+F5: Different set of mitites
+Two walk far, but none that near.
+Furthest mitite: 10437 to 10602 = 165
+Meh. not worth it. Try with old seed again.
+
+Ok, I don't have a chance to kill the far mitite earlier.
+How long did it take on previous attempt?
+farthest: 10254 to 10427 = 173
+second:   10195 to 10361 = 166
+Ok that was even worse.
+
+That means partially redo but just to kill nearest mitite earlier.
+F8: All 10 prev
+F4: 7, but still to near
+F5: 3, now it's killed early enough.
+F6: 4
+F7: 5
+F3: 6
+F4: 7
+F5: 8
+F6: 9
+F7: 10 again!
+Nectars are pretty good now.
+Rerecords: 13627
+
+Now whistling and sprout manip. 
+How many in good third, good two thirds.
+F3: 3 5, Whistled and thrown to furthest.
+F4: 3 5, Thrown two
+F5: 3 6, Thrown three
+F6: 5 9
+F7: 6 8
+F3: 8 8 good
+F4: 7 8
+Now manip second round. First is 8 8.
+F5: 4 5, three flowers
+F6: 1 1, alternative
+F6: 4 4, four thrown, taken
+F7: 3 4, six throws
+F3: 3 5
+
+How long do other mitites take to collect?
+right: 10311 to 10446 = 135f
+top:   10170 to 10324 = 154f
+middle:10105 to 10213 = 108f
+
+F8: base
+F7: 4 4, Problem: I did the wrong collection order.
+I need to redo the second round :'(
+Saved as 0.4.11 Sprout manip good 8 then 4.sav
+
+Now, how long do all 10 mitites take? From top to bottom, right to left.
+tr: 10538 to 10706 = 168f
+2 : 10524 to 10681 = 157f
+3 : 10524 to 10676 = 152f
+tl: 10528 to 10682 = 154f
+mr: 10534 to 10669 = 135f
+6 : 10536 to 10643 = 107f
+ml: 10532 to 10655 = 123f
+br: 10537 to 10607 =  70f
+9 : 10535 to 10609 =  74f
+bl: 10542 to 10632 =  90f
+-> Order is (tr 2 tl 3), (mr ml), rest doesn't matter.
+
+Idea: I got this one frame whistle on one Pikmin,
+where it stopped panicking, but didn't join my party.
+Can I do that to every thrown Pikmin?
+Then I wouldn't have to re-throw them, saving about a second.
+
+My theory: If a Pikmin is panicking, the first frame whistling
+sets it to idle. The second frame whistling makes it join the party.
+So one frame whistle means it's idle and can grab stuff.
+
+Problem: Some Pikmin prefer to break the egg.
+But those can be dismissed.
+F3: dismissed tr on mitite
+F4: cleaned up tr,3 dismiss.
+F5: tr collects at 10155. 
+F9: First attempt  10204 => +49f
+F8: Second attempt 10186 => +31f
+Strat improvement pays off! Onion can spill five sprout rounds from second mitites, instead of two.
+F6: Pikmin at same frame, doesn't work.
+F7: Now different frames, yay
+F3: Thrown leaf Pikmin
+F4: Good whistle path, but top left to slow by 13f
+It's because tl gets hit so late.
+F5: Slightly adapted mitite throws. Now tl is only barely behind.
+F6: Somehow fixed many, but egg breaks
+F7: No egg break, but missing mitite 2
+F3: Juggled Pikmin somehow. All 4 top mitites colleced :)
+
+I have many frames left for RNG manip, and rest of mitites are not that critical.
+I'm at 14714 rerecords and 9992 frames.
+This session is powered by JackDraz streaming again.
+
+F4: Two more mitites are carried
+F5: 9 carried, ready for RNG manip
+How many Pikmin are in good third, good half? Max 10 Pik.
+I just learned it's random if the onion spits 9 or 10 seeds. WTF?!
+F6: 3 6
+F6: 5 7
+F7: 8 9 nice
+F6: 8 9 but whistle one frame
+Now manip second round. Max 5 seeds.
+F6: 3 4
+F5: 4 4 meh
+F4: 2 4 whistling last Pikmin
+F3: 3 5
+F4: 3 5 collect all
+F5: 4 4 nope
+F3: 3 5 bottom, collect all
+All pretty meh. Let's try not whistling the last Pikmin.
+F7: 4 4; but nothing better. 
+Maybe whistle Olimar?
+F6: 2 5 weird but ok.
+I just don't have enouth wiggle room more a better manip.
+I'm hitting the same patterns again and again.
+
+F3 is best. Sprouts are within the first ones, meaning no extra running distance.
+Third round are two seeds.
+F4: 1 2, top right
+F5: 2 2, top top
+F6: 1 2, right right/bottom
+Welp, somehow these savestates got corrupted. F3 still works.
+F5: 2 2, top top
+I'll go with F5.
+
+Further strat:
+Snipe pellets, far then near.
+Then need to wait for all mitites to collect? And pluck 2-5 Pikmin.
+Or directly to 10-pellet?
+If pellet, then don't whistle Olimar yet.
+
+F6: next three rounds of 1 Pik, to right
+
+Let's try getting the 10-pellet first.
+F7: All whistled
+F7: 10-pellet collects with 10 flowers at frame 10579
+F6: With 11 Pik at 20570, but captain is 6f more busy.
+Take F7. How fast is plucking now? When 20th, 40th, 50th?
+old: 10638, 10840, 11003
+F7: ~10630, 10800, 10976 (30 instead of 20, 50 not optimized)
+The trend is that it's about 40f faster this time.
+
+What route to take?
+* 1-pellets, 10-pellet: 
+  Doesn't work. I only have 11 Pikmin.
+* 10-pellet, pluck, 1-pellets: TODO
+  Timing seems good at first glance. 
+  But how long am I waiting on Pikmin? 
+  10105 to 10190, minus 15f walking => about 70f 
+* 1-pellets, pluck, 10-pellet:
+  Timing now way better than previously.
+  Also I can whistle Olimar pretty late, then he isn't in the way.
+
+10-pellet can slide down to speed it up.
+
+Strat that should minimize waiting:
+throw 1 at 10-pellet to kill it earlier
+Whistle Olimar
+RNG manip sprouts to grow fast
+Throw 1-pellets
+Pluck Pikmin until all have joined squad while C-stick left
+Maybe time it so that RNG manip for first sprouts from second mitite round happens right after throwing to 10 pellet?
+
+10025: I can move more freely, though I'd have
+       to redo the manip for two single sprouts.
+10077: Last sprout from onion.
+10088: First sprouts enter ground. +75f pluckable. Manip here.
+       Throw Pikmin here? Or manip with Olimar whistle?
+10105: Can whistle first who collect mitites
+10144: Throw at 1-pellets
+10163: Theoretic first sprout pluckable
+10220 to 10235: Pikmin joined squat and ready
+10310: Sprouts from second mitites
+10355: Far pellet collects
+10374: Old near pellets collect
+10681: Old 10-pellet collects
+
+Run instead of waiting. RNG manip again!
+F3: Run from 10024
+F4: sprout downwards
+F5: down right; Optimzed throw. Pellet dead at 10317
+F6: Pellet dead at 10286.
+    Though Pikmin waits a while until pellet is grown. I could try for another sprout RNG by waiting more. But no real reason?
+F7: Next sprout rightwards
+F7: top right
+F4: last top, Olimar whistled. 10 pellet kill is RNG dependent.
+
+Now whistle at least two Pikmin. They'd take to long otherwise.
+F5: Whistled three by 10118
+
+But before, manip sprout grow times.
+F5: 10114 x2; pluckable at 10168, means 5f late.
+F6: 10105; at 10164; 1f late; was just a test.
+F6: ?; at 10164
+Nope, this is to hard to manip for maybe 4f improvement. Use F5.
+
+Now throw at 1-pellets. Far one first. When to throw?
+Old: throw 10144, hit 10158
+F6: I can't long throw because of Olimar GRRRRRRRRRR
+Rerecords: 15887 on 2024-12-12
+Pretty sure I can save the RNG manip, but redo the whistling.
+F7: alternative path
+F7: Saved RNG manip by dismissing Olimar instead
+F4: First hit :)
+F5: 10137, 10162, Second pellet hit first, YESSSS.
+F6: 10137, 10161
+F6: Both pellets hit
+F6: Pluck first sprout. 
+
+I messed up sprout RNG somehow. And I'm whistling Olimar to late. Saved as
+0.4.12 Optimized until two 1-pellets, then sprout manip fail.sav
+ffmpeg -i framedump0.avi -i ../Audio/dspdump.wav -map 0:v -map 1:a -c:v copy audiovideo.mp4
+ffmpeg -i audiovideo.mp4 -filter:v scale=360:-1 -vcodec libx265 -crf 25 compressed.mp4
+https://discord.com/channels/177495849100640256/698992259038838864/1316855305820442684
+
+Let's try a bit different walking path. After throwing to 10-pellet,
+go under onion, whistle Olimar and Pikmin from there.
+Should give more options for RNG manip.
+F3: Same sprout angle again.
+Sprout manip again. Perfect: 10109 x2
+Previously: 10114 x2
+
+
+
+
+
+
+
+
 
 
 
