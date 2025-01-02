@@ -1263,6 +1263,13 @@ GeomIntersection.cpp:65
 I want to display plane.mNormal.y for every triangle in the VoR bulborb area.
 Or at least color them when `mNormal.y >= 0.6f`.
 
+
+How long do sprouts take min / max in the ground?
+I can't decipher this code.
+https://github.com/projectPiki/pikmin2/blob/bc7496aaa56f2eee4ffe8b268df3e3d4e2cd8a0b/src/plugProjectKandoU/itemPikihead.cpp#L128
+https://github.com/projectPiki/pikmin2/blob/bc7496aaa56f2eee4ffe8b268df3e3d4e2cd8a0b/include/Game/PikiParms.h#L75
+https://github.com/projectPiki/pikmin2/blob/bc7496aaa56f2eee4ffe8b268df3e3d4e2cd8a0b/include/BaseParm.h#L70
+
 #### Try Strats with Mitites Cheat
 I saved a savestate after plucking. Now try strats
 with the insta kill cheat, so I don't have to do
@@ -1934,13 +1941,39 @@ https://discord.com/channels/177495849100640256/698992259038838864/1316855305820
 Let's try a bit different walking path. After throwing to 10-pellet,
 go under onion, whistle Olimar and Pikmin from there.
 Should give more options for RNG manip.
-F3: Same sprout angle again.
+F3: Same sprout angle again. 
+Rerecords: 16113
+
 Sprout manip again. Perfect: 10109 x2
 Previously: 10114 x2
+F4: 10110 10120
+F5: 10105 10108  WTF this is faster than I thought possible.
+F4: I'll take F5. Whistle Olimar at 10101.
+F6: Whistle at 10094
+F8: Whistle at 10092. That is to early by 12f. Olimar in the way.
+    But whistling Pikmin first won't work either.
+    How much can I delay? Cursor movement takes ~12f.
+    Skip first whistle, then I can delay 13f until 10105. Wow that is tight.
+F7: Can't delay enough. Pikmin join 10141, 6f later than previous.
+F3: First Pikmin at 10136
+F4: walked a bit upwards. Onion sprouts at 10310, as it should.
+F5: Run through the wall of Pikmin to cut off Olimar
+F6: Finally hit both! Yay! Throw 10137, hit 10164.
 
+Now Olimar is perfectly in the way again. Argh.
+Rerecords: 16428. That's 3:30 for 315 rerecords.
+I can start pluck adjust 2f earlier, at 10166.
+F3: 10172 in Pluck state
+F4: 10172
+F4: 10171
+F5: 10168 perfect, no pluck adjust ^^
+    Between next sprout it's 4f pluck adjust.
 
-
-
+Now the question: plucking 2 or 5?
+F3: Go with 2. But a plucked Pikmin drinks the nectar. AHHHHHHHHHHHH
+The Pikmin squad is big enouth for throwing.
+Let's tas this out. I don't know if I even can preserve that nectar during plucking.
+Chances are I'll need to redo this with plucking 5 anyway.
 
 
 

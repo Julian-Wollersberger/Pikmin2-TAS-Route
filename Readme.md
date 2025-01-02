@@ -84,6 +84,16 @@ Perform Louie skip by ending the day at the same time
 as activating the Louie cutscene.
 
 ### 0.4 Day 4
+Buckle up, this will be a wild ride.
+Day 4 is *the hardest* part to optimize in the entire run.
+Killing mitites without purples is hard, manipulating sprout RNG
+is tedious, there are several possible routes, TAS only tricks,
+and to top it all, several things happen in parallel.
+
+But much time can be saved: Over 40sec between my TASes and
+over a minute compared to RTA.
+
+
 Only the two grouped pellet posies and the eggs are RNG
 dependent. All other pellets have a fixed spot.
 
@@ -93,7 +103,7 @@ Plucking both sprouts with Olimar is faster, because Louie
 lags so far behind.
 
 #### Egg Push
-All three eggs no to go down the slope. It is possible to
+All three eggs need to go down the slope. It is possible to
 push all three eggs at the same time with one captain,
 and still be faster than the 5-pellet.
 
@@ -102,8 +112,7 @@ will only move sideways later. Also punch it down to 1 hit.
 Then run to the back egg and punch so that two eggs get hit.
 It's easiest to punch them while on still being on the upper part.
 
-Steering the eggs is very finnicy. It's like driving backwards
-in a car with two trailers.
+Steering the eggs is very finnicy.
 My technique is to pick a direction in the TAS Input window,
 advance by ~5 frames, make a savestate, advance further to see
 whether Olimar overshoots left or right of the egg,
@@ -119,18 +128,93 @@ Pikmin from the 5-pellet. If you need to delay the whistling by a
 few frames, then success! The egg push was faster than the 5-pellet.
 
 #### Mitites Strategy
+Before the first set of mitites, collect the near 1-pellet. That will mean
+that we have 12 Pikmin for the second set.
+The far 1-pellet is to slow. It will not collect in time at all, and going for it
+makes collecting the near 1-pellet 100 frames slower. Meaning we'd have only
+6 Pikmin for killing the first set of mitites.
+
 Before the second set of mitites can spawn, the first set needs to
 fully collect. For that, you need all 10 available Pikmin. Otherwise it's very slow.
 So pluck all 5 from the 5-pellet. RNG manipulate both the direction the sprouts
 fall in (for a short walking distance) and how long they take to grow
 (determined on the frame they land on the ground).
 
+For killing the mitites, not all 10 Pikmin must be available immediately,
+since whistling isn't that slow (takes about 24 frames). For the first set,
+you need to whistle once anyway.
+
+To TAS this, you really need the TASStudio window. 
+First, put in 10 A presses with 2 frames inbetween each, and some erratic movement,
+and then some movement afterwards with whistling. Since movement advances RNG,
+and mitite walk RNG dependent, this makes sure that RNG stays mostly stable
+during TASing and that your perfectly thrown Pikmin don't suddenly miss.
+Then go through each A press and change the walking angles in the two frames before
+and after an A press, until you hit one mitite more.
+
+Your squat needs to be next to the captain, and you need some C-Sticking,
+to throw all 10 Pikmin in 30 frames. Taking longer than 2f between
+throws is easier, but slower of course. This will take quite some 
+trial and error.
+
+Aim for the mitites near the wall first, as those take the longest
+to collect, and should die first. When all mitites are dead, measure
+how long each one takes to collect, as the pathing is surprising.
+
+I recommend to flower all 10 Pikmin after killing the first mitites.
+Downsides: 
+* Whistling all Pikmin loses some time.
+* Button lockout form the cutscene could otherwise be at some time
+  when you don't need to throw immediately afterwards.
+* Flowering loses 40f overall on first set.
+Upsides:
+* Easier to TAS, as navigating Pikmin around nectars is hard
+* Faster Mitites collection by 50f. Worth it by the second set.
+* First set of mitites has a [slower animation speed](https://www.youtube.com/watch?v=ciY7fbGqvbY), 
+  and slower deaths. Means more time to whistle and flower.
+
+#### Insta-Death cheat for Mities
+There are cheat codes to test out your strategies without needed
+to go through the tedious process of killing the mitites yourself.
+
+```
+$Mitites die when trying to walk (US Final) [APerson13]
+0436cd1c 38800004
+0436cdac 38800000
+
+
+$Mitites die when trying to walk (JPN) [APerson13]
+0436d32c 38800004
+0436d3bc 38800000
+
+
+$Mitites die when trying to walk (PAL) [EpochFlame]
+0436cf2c 38800004
+0436cfbc 38800000
+```
+
+#### Plucking
 The first time you pluck, it's a slower pluck (38 frames), and then
-if you are continuously pressing A to auto-pluck without walking to each
-seed, then the 2nd pluck onward is fast (14 frames), until you fully stop plucking
-and have movement control again. Between the plucks, the captain is in the
+if you are continuously pressing A to auto-pluck, then the 2nd pluck
+and onward is fast (14 frames), until you fully stop plucking.
+Between the plucks, the captain is in the
 "pluck adjust" state, where they walk slower. So make sure the sprouts are
 very near to each other.
+
+The best way to manip RNG here is to startwalking with the captain
+as late as possible, and see how the sprouts fall.
+Then start walking a frame ealier and see again.
+Stopping to walk at different times also works, but that has several
+frames delay before the captain is slow enouth to not call RNG.
+
+This method gives about 20 to 50 different possible seeds in this segment,
+as things are happening quite rapidly. You can also vary the amount of
+Pikmin or Captains in the squad. C-sticking helps sometimes too, but not that much.
+
+RNG call while moving is implemented in [fakePiki.cpp:1343](https://github.com/projectPiki/pikmin2/blob/bc7496aaa56f2eee4ffe8b268df3e3d4e2cd8a0b/src/plugProjectKandoU/fakePiki.cpp#L1343).
+"If moved at least least 1.0 units since last frame, random chance to make splash/dust".
+This should be called once every frame for every captain or Pikmin.
+TODO: Do enemies also count as FakePiki?
 
 The second captain will only start plucking when
 * the current captain starts plucking
@@ -138,24 +222,21 @@ The second captain will only start plucking when
 * the current captain isn't already targeting that sprout.
 To make the second captain continue to pluck, he needs to
 finish _before_ the current captain. Otherwise he will just stand around.
-That's why it is very hard to make the second captain pluck
+That's why it is not possible to make the second captain pluck
 as many sprouts as the current captain.
 
-For killing the mitites, not all 10 Pikmin must be available immediately,
-since whistling isn't that slow (about 24 frames). For the first set,
-you need to whistle once anyway.
-
-Before the first set of mitites, collect the near 1-pellet. That will mean
-that we have 12 Pikmin for the second set.
-The far 1-pellet is to slow. It will not collect in time at all, and going for it
-makes collecting the near 1-pellet 100 frames slower. Meaning we'd have only
-6 Pikmin for killing the first set of mitites.
+The amount of time a sprout takes to grow is random. Precisely:
+On the frame that a sprout lands, it calls RNG for how long it
+should stay underground. Minimum I have seen is 15f.
+As soon as it's visible, the animation always takes 59f.
 
 
-For the 10-pellet and third set of mitites, I'm investigating if they can be done
-while CR moves. That would make it completely parallel. But doing both is very tight and
-probably not enouth Pikmin are available. But one of the two can be done that late.
-
+TODO:
+For the ~~10-pellet~~ and third set of mitites, I'm investigating if they can be done
+while CR moves. That would make it completely parallel. But doing both is 
+very tight and barely enouth Pikmin are available. But one of the two
+can be done that late.
+(10-pellet can happen while plucking. Not while CR moves.)
 
 
 #### Gate Cutscene Skip
@@ -180,22 +261,6 @@ Eg. Pikmin can't deal damage to the gate in the treasure collection cutscene,
 but can in the find-first-treasure cutscene.
 See [PikHacker's Pikmin 2 Cutscene Documentation](https://docs.google.com/spreadsheets/d/10fIMMCDvYQ-v6UBLxkTATKAEysbJh4l63G728u7GSFk/edit?usp=sharing).
 
-
-
-Cheats:
-````
-$Mitites die when trying to walk (US Final) [APerson13]
-0436cd1c 38800004
-0436cdac 38800000
-
-$Mitites die when trying to walk (JPN) [APerson13]
-0436d32c 38800004
-0436d3bc 38800000
-
-$Mitites die when trying to walk (PAL) [EpochFlame]
-0436cf2c 38800004
-0436cfbc 38800000
-````
 
 
 
